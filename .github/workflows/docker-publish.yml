@@ -1,0 +1,60 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+
+env:
+  IMAGE_NAME: rust-switch-horizon
+
+jobs:
+  # Run test Docker build only for PRs.
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 720
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          docker build . --file Dockerfile
+
+  # Push image to GitHub Packages.
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    timeout-minutes: 720
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Pull image
+        run: docker pull $IMAGE_NAME
+        continue-on-error: true
+
+      - name: Build image
+        run: docker build . --file Dockerfile --cache-from $IMAGE_NAME --tag $IMAGE_NAME:latest
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          GIT_HASH=$(git rev-parse HEAD)
+
+          echo IMAGE_ID=$IMAGE_ID
+          echo GIT_HASH=$GIT_HASH
+
+          docker push $IMAGE_ID:latest
+          docker tag $IMAGE_NAME $IMAGE_ID:$GIT_HASH
+          docker push $IMAGE_ID:$GIT_HASH
