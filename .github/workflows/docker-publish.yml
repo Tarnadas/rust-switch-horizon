@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: rust-switch-horizon
+  IMAGE_NAME_TOOLCHAIN: rust-switch-horizon-toolchain
 
 jobs:
   # Run test Docker build only for PRs.
@@ -20,9 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Build toolchain image
         run: |
-          docker build . --file Dockerfile
+          docker build . --file DockerfileToolchain
 
   # Push image to GitHub Packages.
   push:
@@ -33,19 +33,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Pull image
-        run: docker pull docker.pkg.github.com/$IMAGE_NAME
-        continue-on-error: true
-
-      - name: Build image
-        run: docker build . --file Dockerfile --cache-from $IMAGE_NAME --tag $IMAGE_NAME:latest
-
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-      - name: Push image
+      - name: Pull toolchain image
+        run: docker pull docker.pkg.github.com/$IMAGE_NAME_TOOLCHAIN
+        continue-on-error: true
+
+      - name: Build toolchain image
+        run: docker build . --file DockerfileToolchain --cache-from $IMAGE_NAME_TOOLCHAIN --tag $IMAGE_NAME_TOOLCHAIN:latest
+
+      - name: Push toolchain image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME_TOOLCHAIN
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -56,5 +56,5 @@ jobs:
           echo GIT_HASH=$GIT_HASH
 
           docker push $IMAGE_ID:latest
-          docker tag $IMAGE_NAME $IMAGE_ID:$GIT_HASH
+          docker tag $IMAGE_NAME_TOOLCHAIN $IMAGE_ID:$GIT_HASH
           docker push $IMAGE_ID:$GIT_HASH
