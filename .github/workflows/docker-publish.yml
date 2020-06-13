@@ -8,8 +8,8 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME_TOOLCHAIN: tarnadas/rust-switch-horizon-toolchain
-  IMAGE_NAME: tarnadas/rust-switch-horizon
+  IMAGE_NAME_TOOLCHAIN: tarnadas/rust-switch-horizon/toolchain
+  IMAGE_NAME: tarnadas/rust-switch-horizon/rustc
 
 jobs:
   # Run test Docker build only for PRs.
