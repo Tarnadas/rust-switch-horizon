@@ -55,8 +55,8 @@ ENV PATH=/root/.cargo/bin:$PATH
 
 RUN cargo install du-dust
 RUN dust -n 30 /
-RUN dust -n 30 /horizon/rust/build
-RUN find -name cargo /horizon/rust/build
+RUN dust -n 50 /horizon/rust/build
+RUN find /horizon/rust/build -name cargo
 
 # RUN rustup toolchain link horizon ./rust/build/x86_64-unknown-linux-gnu/stage1
 # RUN rustup default horizon
