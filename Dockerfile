@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim as build
+FROM debian:bullseye-slim
 
 WORKDIR /horizon
 
@@ -42,19 +42,21 @@ ADD https://api.github.com/repos/tarnadas/backtrace-rs/git/refs/heads/horizon ve
 RUN git clone --depth=1 --branch=horizon https://github.com/Tarnadas/backtrace-rs.git
 RUN cd backtrace-rs && git submodule update --init crates/backtrace-sys/src/libbacktrace
 
-# RUN curl https://sh.rustup.rs -sSf > rust-init.rs
-# RUN chmod +x rust-init.rs
-# RUN ./rust-init.rs -y --default-toolchain nightly-2020-03-13 --profile minimal
-# RUN rm rust-init.rs
-# ENV PATH=/root/.cargo/bin:$PATH
-
 COPY config.toml ./rust/config.toml
 RUN cd rust && ./x.py build -i --stage 1 src/libstd
-RUN cd rust && ./x.py dist
-RUN cd rust && ./x.py install
+# RUN cd rust && ./x.py dist
+# RUN cd rust && ./x.py install
+
+RUN curl https://sh.rustup.rs -sSf > rust-init.rs
+RUN chmod +x rust-init.rs
+RUN ./rust-init.rs -y --default-toolchain nightly-2020-03-13 --profile minimal
+RUN rm rust-init.rs
+ENV PATH=/root/.cargo/bin:$PATH
 
 RUN cargo install du-dust
 RUN dust -n 30 /
+RUN dust -n 30 /horizon/rust/build
+RUN find -name cargo /horizon/rust/build
 
 # RUN rustup toolchain link horizon ./rust/build/x86_64-unknown-linux-gnu/stage1
 # RUN rustup default horizon
