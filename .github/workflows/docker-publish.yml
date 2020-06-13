@@ -8,8 +8,8 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME_TOOLCHAIN: rust-switch-horizon-toolchain
-  IMAGE_NAME: rust-switch-horizon
+  IMAGE_NAME_TOOLCHAIN: ${{ github.repository_owner }}/rust-switch-horizon-toolchain
+  IMAGE_NAME: ${{ github.repository_owner }}/rust-switch-horizon
 
 jobs:
   # Run test Docker build only for PRs.
@@ -46,7 +46,7 @@ jobs:
 
       - name: Push toolchain image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME_TOOLCHAIN
+          IMAGE_ID=docker.pkg.github.com/$IMAGE_NAME_TOOLCHAIN
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -69,7 +69,7 @@ jobs:
 
       - name: Push image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=docker.pkg.github.com/$IMAGE_NAME
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
