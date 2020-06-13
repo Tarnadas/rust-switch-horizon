@@ -8,8 +8,8 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME_TOOLCHAIN: $(echo "${{ github.repository_owner }}/rust-switch-horizon-toolchain" | tr '[A-Z]' '[a-z]')
-  IMAGE_NAME: $(echo "${{ github.repository_owner }}/rust-switch-horizon" | tr '[A-Z]' '[a-z]')
+  IMAGE_NAME_TOOLCHAIN: $(echo '${{ github.repository_owner }}/rust-switch-horizon-TOOLCHAIN' | tr '[A-Z]' '[a-z]')
+  IMAGE_NAME: $(echo '${{ github.repository_owner }}/rust-switch-horizon' | tr '[A-Z]' '[a-z]')
 
 jobs:
   # Run test Docker build only for PRs.
