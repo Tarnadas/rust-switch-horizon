@@ -39,7 +39,7 @@ RUN ./rust-init.rs -y --default-toolchain nightly-2020-03-13 --profile minimal
 RUN rm rust-init.rs
 ENV PATH=/root/.cargo/bin:$PATH
 
-COPY --from tarnadas/rust-switch-horizon-toolchain /horizon/rust/build/x86_64-unknown-linux-gnu /horizon/rust
+COPY --from=tarnadas/rust-switch-horizon-toolchain /horizon/rust/build/x86_64-unknown-linux-gnu /horizon/rust
 
 RUN rustup toolchain link horizon /horizon/rust/stage1
 RUN rustup default horizon
