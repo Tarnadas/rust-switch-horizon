@@ -61,6 +61,7 @@ RUN dust -n 30 /
 RUN dust -n 50 /horizon/rust/build
 RUN find /horizon/rust/build -name cargo
 RUN cd /horizon/rust/build/x86_64-unknown-linux-gnu && ls
+RUN find /horizon/rust/build -name '*horizon*'
 
 # RUN rustup toolchain link horizon ./rust/build/x86_64-unknown-linux-gnu/stage1
 # RUN rustup default horizon
