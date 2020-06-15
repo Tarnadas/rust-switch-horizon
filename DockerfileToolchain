@@ -29,8 +29,8 @@ ENV CC_aarch64_unknown_horizon_libnx=/opt/devkitpro/devkitA64/bin/aarch64-none-e
 
 RUN pacman -Sy
 RUN yes | pacman -S \
-    switch-tools \
-    libnx \
+#   switch-tools \
+#   libnx \
     devkitA64 \
     devkit-env
 
