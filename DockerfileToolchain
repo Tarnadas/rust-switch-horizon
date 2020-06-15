@@ -43,8 +43,9 @@ RUN git clone --depth=1 --branch=horizon https://github.com/Tarnadas/backtrace-r
 RUN cd backtrace-rs && git submodule update --init crates/backtrace-sys/src/libbacktrace
 
 COPY config.toml ./rust/config.toml
-RUN cd rust && ./x.py build -i --stage 1 src/libstd
-RUN cd rust && ./x.py build -i --stage 1 src/tools/cargo
+# RUN cd rust && ./x.py build -i --stage 1 src/libstd
+# RUN cd rust && ./x.py build -i --stage 1 src/tools/cargo
+RUN cd rust && ./x.py build -i --stage 2 src/libcore
 RUN cd rust && ./x.py build -i --stage 2 src/libstd
 RUN cd rust && ./x.py build -i --stage 2 src/tools/cargo
 # RUN cd rust && ./x.py dist
