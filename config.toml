@@ -125,7 +125,7 @@ targets = "AArch64;X86"
 # triple and then will continue to bootstrap themselves. This platform must
 # currently be able to run all of the triples provided here.
 #host = ["x86_64-unknown-linux-gnu"]   # defaults to just the build triple
-host = ["x86_64-unknown-linux-gnu", "aarch64-unknown-horizon-libnx"]
+#host = ["x86_64-unknown-linux-gnu", "aarch64-unknown-horizon-libnx"]
 
 # In addition to all host triples, other triples to produce the standard library
 # for. Each host triple will be used to produce a copy of the standard library
