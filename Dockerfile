@@ -44,7 +44,7 @@ COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizo
 COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-tools /horizon/rust/stage2-tools
 COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-tools-bin /horizon/rust/stage2-tools-bin
 
-ENV PATH=/horizon/rust/stage2:/horizon/rust/stage2-tools-bin:$PATH
+ENV PATH=/horizon/rust/stage2/bin:/horizon/rust/stage2-tools-bin:$PATH
 
 # RUN rustup toolchain link horizon /horizon/rust/stage1
 # RUN rustup default horizon
