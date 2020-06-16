@@ -33,17 +33,7 @@ RUN yes | pacman -S \
     devkitA64 \
     devkit-env
 
-COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2 /horizon/rust/stage2
-COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-std /horizon/rust/stage2-std
-COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-tools /horizon/rust/stage2-tools
-COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-tools-bin /horizon/rust/stage2-tools-bin
+COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2 /root/.cargo
+COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-tools-bin /root/.cargo/bin
 
-RUN curl https://sh.rustup.rs -sSf > rust-init.rs
-RUN chmod +x rust-init.rs
-RUN ./rust-init.rs -y --default-toolchain nightly-2020-03-13 --profile minimal
-RUN rm rust-init.rs
-
-ENV PATH=/horizon/rust/stage2/bin:/horizon/rust/stage2-tools-bin:/root/.cargo/bin:$PATH
-
-RUN rustup toolchain link horizon /horizon/rust/stage2
-RUN rustup default horizon
+ENV PATH=/root/.cargo/bin:$PATH
