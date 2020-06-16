@@ -10,6 +10,7 @@ on:
 env:
   IMAGE_NAME_TOOLCHAIN: tarnadas/rust-switch-horizon/toolchain
   IMAGE_NAME: tarnadas/rust-switch-horizon/rustc
+  IMAGE_NAME_DOCKER_HUB: tarnadas/rust-switch-horizon
 
 jobs:
   # Run test Docker build only for PRs.
@@ -37,6 +38,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Log into registries
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u tarnadas --password-stdin
 
       - name: Free disk space
         run: |
@@ -81,9 +87,6 @@ jobs:
           sudo rm -rf /usr/local/lib/android >/dev/null 2>&1
           docker rmi $(docker image ls -aq) >/dev/null 2>&1
 
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-
       - name: Pull toolchain image
         run: docker pull docker.pkg.github.com/$IMAGE_NAME_TOOLCHAIN
         continue-on-error: true
@@ -123,3 +126,7 @@ jobs:
           docker push $IMAGE_ID:latest
           docker tag $IMAGE_ID $IMAGE_ID:$GIT_HASH
           docker push $IMAGE_ID:$GIT_HASH
+          docker tag $IMAGE_ID $IMAGE_NAME_DOCKER_HUB
+          docker push $IMAGE_NAME_DOCKER_HUB
+          docker tag $IMAGE_ID $IMAGE_NAME_DOCKER_HUB:$GIT_HASH
+          docker push $IMAGE_NAME_DOCKER_HUB:$GIT_HASH
