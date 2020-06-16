@@ -45,9 +45,9 @@ RUN cd backtrace-rs && git submodule update --init crates/backtrace-sys/src/libb
 COPY config.toml ./rust/config.toml
 # RUN cd rust && ./x.py build -i --stage 1 src/libstd
 # RUN cd rust && ./x.py build -i --stage 1 src/tools/cargo
-RUN cd rust && ./x.py build -i --stage 2 src/libcore
-RUN cd rust && ./x.py build -i --stage 2 src/libstd
-RUN cd rust && ./x.py build -i --stage 2 src/tools/cargo
+RUN cd rust && ./x.py build -i --stage 2 src/libcore src/libstd src/tools/cargo
+# RUN cd rust && ./x.py build -i --stage 2 src/libstd
+# RUN cd rust && ./x.py build -i --stage 2 src/tools/cargo
 # RUN cd rust && ./x.py dist
 # RUN cd rust && ./x.py install
 
