@@ -336,7 +336,7 @@ codegen-units-std = 0
 #debuginfo-level-tests = 0
 
 # Whether or not `panic!`s generate backtraces (RUST_BACKTRACE)
-backtrace = false
+backtrace = true
 
 # Whether to always use incremental compilation when building rustc
 #incremental = false
