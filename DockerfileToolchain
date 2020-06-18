@@ -43,13 +43,7 @@ RUN git clone --depth=1 --branch=horizon https://github.com/Tarnadas/backtrace-r
 RUN cd backtrace-rs && git submodule update --init crates/backtrace-sys/src/libbacktrace
 
 COPY config.toml ./rust/config.toml
-# RUN cd rust && ./x.py build -i --stage 1 src/libstd
-# RUN cd rust && ./x.py build -i --stage 1 src/tools/cargo
 RUN cd rust && ./x.py build -i --stage 2 src/libcore src/libstd src/tools/cargo
-# RUN cd rust && ./x.py build -i --stage 2 src/libstd
-# RUN cd rust && ./x.py build -i --stage 2 src/tools/cargo
-# RUN cd rust && ./x.py dist
-# RUN cd rust && ./x.py install
 
 RUN curl https://sh.rustup.rs -sSf > rust-init.rs
 RUN chmod +x rust-init.rs
@@ -57,12 +51,5 @@ RUN ./rust-init.rs -y --default-toolchain nightly-2020-03-13 --profile minimal
 RUN rm rust-init.rs
 ENV PATH=/root/.cargo/bin:$PATH
 
-RUN cargo install du-dust
-RUN dust -n 30 /
-RUN dust -n 50 /horizon/rust/build
-RUN find /horizon/rust/build -name cargo
-RUN cd /horizon/rust/build/x86_64-unknown-linux-gnu && ls
-RUN find /horizon/rust/build -name '*horizon*'
-
-# RUN rustup toolchain link horizon ./rust/build/x86_64-unknown-linux-gnu/stage1
-# RUN rustup default horizon
+RUN cargo install cargo-watch
+RUN cargo install --features=binaries linkle
