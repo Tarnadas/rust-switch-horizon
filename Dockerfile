@@ -37,5 +37,6 @@ COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizo
 COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /horizon/rust/build/x86_64-unknown-linux-gnu/stage2-tools-bin /root/.cargo/bin
 COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /root/.cargo/bin/cargo-nro /root/.cargo/bin/cargo-nro
 COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /root/.cargo/bin/cargo-watch /root/.cargo/bin/cargo-watch
+COPY --from=docker.pkg.github.com/tarnadas/rust-switch-horizon/toolchain /root/.cargo/bin/linkle /root/.cargo/bin/linkle
 
 ENV PATH=/root/.cargo/bin:$PATH
