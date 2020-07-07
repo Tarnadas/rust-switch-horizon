@@ -16,13 +16,11 @@ RUN apt-get update && \
     curl \
     cmake \
     pkg-config \
-    gdebi-core \
     libclang-dev \
     llvm-dev
 
 # Install devkitPro Pacman
-RUN wget https://github.com/devkitPro/pacman/releases/download/v1.0.2/devkitpro-pacman.amd64.deb
-RUN yes | gdebi devkitpro-pacman.amd64.deb
+COPY --from=devkitpro/toolchain-base /opt/devkitpro/pacman /opt/devkitpro/pacman
 
 ENV DEVKITPRO=/opt/devkitpro
 ENV PATH=$DEVKITPRO/pacman/bin:$DEVKITPRO/devkitA64/bin:$DEVKITPRO/tools/bin:$PATH
