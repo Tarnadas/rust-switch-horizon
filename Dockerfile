@@ -20,7 +20,7 @@ RUN apt-get update && \
     llvm-dev
 
 # Install devkitPro Pacman
-RUN wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
+RUN wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.2/devkitpro-pacman.deb
 RUN dpkg -i devkitpro-pacman.deb
 
 ENV DEVKITPRO=/opt/devkitpro
