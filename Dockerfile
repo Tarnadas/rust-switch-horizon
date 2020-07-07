@@ -16,7 +16,8 @@ RUN apt-get install -y --no-install-recommends \
     curl \
     cmake \
     pkg-config \
-    libclang-dev
+    libclang-dev \
+    llvm-dev
 
 # Install devkitPro Pacman
 RUN wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
