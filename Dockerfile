@@ -16,6 +16,7 @@ RUN apt-get update && \
     curl \
     cmake \
     pkg-config \
+    gnupg \
     libclang-dev \
     llvm-dev
 
