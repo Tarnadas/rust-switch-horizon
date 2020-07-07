@@ -22,7 +22,7 @@ RUN apt-get update && \
 
 # Install devkitPro Pacman
 RUN wget https://github.com/devkitPro/pacman/releases/download/v1.0.2/devkitpro-pacman.amd64.deb
-RUN gdebi devkitpro-pacman.amd64.deb
+RUN yes | gdebi devkitpro-pacman.amd64.deb
 
 ENV DEVKITPRO=/opt/devkitpro
 ENV PATH=$DEVKITPRO/pacman/bin:$DEVKITPRO/devkitA64/bin:$DEVKITPRO/tools/bin:$PATH
