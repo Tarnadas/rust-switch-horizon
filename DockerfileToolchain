@@ -19,20 +19,22 @@ RUN apt-get update && \
     clang
 
 # Install devkitPro Pacman
-RUN wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
-RUN dpkg -i devkitpro-pacman.deb
+# RUN wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb
+# RUN dpkg -i devkitpro-pacman.deb
 
 ENV DEVKITPRO=/opt/devkitpro
 ENV PATH=$DEVKITPRO/pacman/bin:$DEVKITPRO/devkitA64/bin:$DEVKITPRO/tools/bin:$PATH
 ENV CXX_aarch64_unknown_horizon_libnx=/opt/devkitpro/devkitA64/bin/aarch64-none-elf-gcc              
 ENV CC_aarch64_unknown_horizon_libnx=/opt/devkitpro/devkitA64/bin/aarch64-none-elf-gcc
 
-RUN pacman -Sy
-RUN yes | pacman -S \
-#   switch-tools \
-#   libnx \
-    devkitA64 \
-    devkit-env
+# RUN pacman -Sy
+# RUN yes | pacman -S \
+# #   switch-tools \
+# #   libnx \
+#     devkitA64 \
+#     devkit-env
+
+COPY --from=rustyhorizon/docker /opt/devkitpro /opt/devkitpro
 
 ADD https://api.github.com/repos/tarnadas/rust/git/refs/heads/horizon version.json
 RUN git clone --depth=1 --branch=horizon https://github.com/Tarnadas/rust.git
